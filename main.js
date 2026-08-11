@@ -1,9 +1,7 @@
 import Papa from "papaparse";
-import { GoogleGenAI } from '@google/genai';
 import csvRaw from "./data.csv?raw";
 
-const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-const MODEL = "models/gemini-3-flash-preview";
+const MODEL = "gemini-3-flash-preview";
 const HIGH_SCORE_KEY = "marvelGuessHighScore";
 
 const startDialog = document.getElementById("startdialog");
@@ -26,7 +24,24 @@ const playAgainButton = document.getElementById("playAgainButton");
 let characters = [];
 let game = null;
 
-const genAI = new GoogleGenAI({ apiKey: API_KEY });
+async function askAI(contents) {
+    const response = await fetch("/.netlify/functions/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            model: MODEL,
+            systemPrompt: game.systemPrompt,
+            contents,
+        }),
+    });
+
+    if (!response.ok) {
+        throw new Error(`Request failed: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.text || "";
+}
 
 function buildSystemPrompt(secret) {
     return `You are the answer engine for a Guess the Marvel Character game.
@@ -418,15 +433,7 @@ async function handleAsk() {
     askButton.disabled = true;
 
     try {
-        const response = await genAI.models.generateContent({
-            model: MODEL,
-            contents: [...game.history, { role: "user", parts: [{ text: question }] }],
-            config: {
-                systemInstruction: { parts: [{ text: game.systemPrompt }] }
-            }
-        });
-
-        const answer = (response.text || "No response.").trim();
+        const answer = (await askAI([...game.history, { role: "user", parts: [{ text: question }] }])).trim();
         game.history.push({ role: "user", parts: [{ text: question }] });
         game.history.push({ role: "model", parts: [{ text: answer }] });
 
