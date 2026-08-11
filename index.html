@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Marvel Character</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Guess the Marvel Character</h1>
+
+    <dialog id="startdialog">
+        <p>Select Difficulty</p>
+        <select id="difficultySelect">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+        <button id="startButton">Start Game</button>
+    </dialog>
+
+    <div class="hud">
+        <div class="score-box">
+            <span class="label">Score</span>
+            <span id="scoreDisplay">0</span>
+        </div>
+        <div class="score-box">
+            <span class="label">High Score</span>
+            <span id="highScoreDisplay">0</span>
+        </div>
+        <div id="guessesDisplay" class="score-box-label">Guesses: 0</div>
+    </div>
+
+    <div id="chat"></div>
+
+    <div class="main">
+        <input type="text" id="guessInput" placeholder="Start asking questions..." autocomplete="off">
+        <button id="askButton">Ask</button>
+    </div>
+
+    <div class="main guess-row">
+        <input type="text" id="marvelSelect" list="characterList" placeholder="Pick your guess..." autocomplete="off">
+        <datalist id="characterList"></datalist>
+        <button id="guessButton">Guess</button>
+    </div>
+
+    <dialog id="endDialog">
+        <h2 id="endTitle"></h2>
+        <p id="endMessage"></p>
+        <button id="playAgainButton">Play Again</button>
+    </dialog>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>

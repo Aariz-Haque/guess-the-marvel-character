@@ -1,0 +1,21 @@
+{
+  "name": "guess-the-marvel-character",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^8.2.1"
+  },
+  "dependencies": {
+    "@google/genai": "^2.16.0",
+    "papaparse": "^5.5.4"
+  }
+}
