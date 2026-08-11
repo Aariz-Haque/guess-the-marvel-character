@@ -1,5 +1,6 @@
 import Papa from "papaparse";
 import { GoogleGenAI } from '@google/genai';
+import csvRaw from "./data.csv?raw";
 
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const MODEL = "models/gemini-3-flash-preview";
@@ -463,16 +464,14 @@ function startGame() {
     setupGame(secret.Name);
 }
 
-window.addEventListener("load", async () => {
+window.addEventListener("load", () => {
     highScoreDisplay.textContent = getHighScore();
 
     try {
-        const response = await fetch("./data.csv");
-        if (!response.ok) throw new Error(`Failed to load data.csv: ${response.status}`);
-
-        const csv = await response.text();
-        const parsed = Papa.parse(csv, { header: true, skipEmptyLines: true });
+        const parsed = Papa.parse(csvRaw, { header: true, skipEmptyLines: true });
         characters = parsed.data.filter(c => c && c.Name && c.Difficulty);
+
+        if (!characters.length) throw new Error("No characters parsed from data.csv");
 
         characterList.innerHTML = "";
         const seen = new Set();
