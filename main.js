@@ -1,7 +1,7 @@
 import Papa from "papaparse";
 import csvRaw from "./data.csv?raw";
 
-const MODEL = "gemini-3-flash-preview";
+const MODEL = "gemini-3.1-flash-lite";
 const HIGH_SCORE_KEY = "marvelGuessHighScore";
 
 const startDialog = document.getElementById("startdialog");
